@@ -1,67 +1,51 @@
 #include <iostream>
+
 using namespace std;
 
+// Subsistema 1
 class Subsistema1 {
 public:
-  string Operacion1() const {
-    return "Subsistema1: Listo\n";
-  }
-  
-  string OperacionN() const {
-    return "Subsistema1: Adelante\n";
-  }
+    void operacion1() {
+        cout << "Subsistema 1: operacion1()" << endl;
+    }
+
+    void operacion2() {
+        cout << "Subsistema 1: operacion2()" << endl;
+    }
 };
 
+// Subsistema 2
 class Subsistema2 {
 public:
-  string Operacion1() const {
-    return "Subsistema2: Preparate\n";
-  }
-  
-  string OperacionZ() const {
-    return "Subsistema2: Fuego\n";
-  }
+    void operacion1() {
+        cout << "Subsistema 2: operacion1()" << endl;
+    }
+
+    void operacion2() {
+        cout << "Subsistema 2: operacion2()" << endl;
+    }
 };
 
+// Fachada
 class Fachada {
-protected:
-  Subsistema1 *subsistema1_;
-  Subsistema2 *subsistema2_;
+private:
+    Subsistema1 subsistema1;
+    Subsistema2 subsistema2;
 
 public:
-  Fachada(Subsistema1 *subsistema1 = nullptr, Subsistema2 *subsistema2 = nullptr) {
-    this->subsistema1_ = subsistema1 ?: new Subsistema1;
-    this->subsistema2_ = subsistema2 ?: new Subsistema2;
-  }
-  
-  ~Fachada() {
-    delete subsistema1_;
-    delete subsistema2_;
-  }
+    void operacion() {
+        cout << "Fachada: operacion()" << endl;
 
-  string Operacion() {
-    string resultado = "Fachada inicializa subsistemas:\n";
-    resultado += this->subsistema1_->Operacion1();
-    resultado += this->subsistema2_->Operacion1();
-    resultado += "Fachada ordena a los subsistemas ejecutar la accion:\n";
-    resultado += this->subsistema1_->OperacionN();
-    resultado += this->subsistema2_->OperacionZ();
-    return resultado;
-  }
+        // Utilizando los subsistemas
+        subsistema1.operacion1();
+        subsistema2.operacion2();
+    }
 };
 
-void CodigoCliente(Fachada *fachada) {
-  cout << fachada->Operacion();
-}
-
+// Código cliente
 int main() {
-  Subsistema1 *subsistema1 = new Subsistema1;
-  Subsistema2 *subsistema2 = new Subsistema2;
-  Fachada *fachada = new Fachada(subsistema1, subsistema2);
-  
-  CodigoCliente(fachada);
+    Fachada fachada;
+    fachada.operacion();
 
-  delete fachada;
-
-  return 0;
+    return 0;
 }
